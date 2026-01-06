@@ -1,6 +1,6 @@
-package repository;
+package wallet.api.money.repository;
 
-import entity.Account;
+import wallet.api.money.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

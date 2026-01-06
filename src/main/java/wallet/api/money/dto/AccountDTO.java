@@ -1,4 +1,4 @@
-package dto;
+package wallet.api.money.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
