@@ -24,4 +24,20 @@ public class Account {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
+
+
+
+    public void deposit(Double amount) {
+        this.balance += amount;
+    }
+
+    public void  withdraw(Double amount) {
+        if(this.balance < amount) {
+            throw new RuntimeException("Don't have money");
+        }
+
+        this.balance -= amount;
+    }
+
 }
+

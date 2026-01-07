@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import wallet.api.money.dto.DepositRequestDTO;
+import wallet.api.money.dto.TransactionDTO;
 import wallet.api.money.dto.TransferRequestDTO;
 import wallet.api.money.dto.WithdrawRequestDTO;
 import wallet.api.money.entity.Account;
-import wallet.api.money.entity.Transaction;
 import wallet.api.money.service.AccountService;
 
 import java.util.List;
@@ -39,7 +39,17 @@ public class AccountController {
     }
 
     @GetMapping("/account-history/{accountId}")
-    public ResponseEntity<List<Transaction>> getHistory(@PathVariable Long accountId) {
+    public ResponseEntity<List<TransactionDTO>> getHistory(@PathVariable Long accountId) {
         return ResponseEntity.ok(accountService.getAccountHistory(accountId));
+    }
+
+    @GetMapping("/all-account")
+    public  List<Account> getAllAccount() {
+        return accountService.getAllAccount();
+    }
+
+    @PostMapping("/delete/{id}")
+    public void deleteAccount(@PathVariable Long id) {
+        accountService.deleteAccount(id);
     }
 }
