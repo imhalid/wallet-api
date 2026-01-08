@@ -7,10 +7,13 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
+import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Accounts, Long> {
     // Sorgular burada yapılacak
+
+    Optional<Accounts> findByIbanAndAccountCode(String iban, String accountCode);
 
     public enum Currency {
         TRY, USD, EUR, GBP

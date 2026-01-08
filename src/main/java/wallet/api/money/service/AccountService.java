@@ -28,6 +28,10 @@ public class AccountService {
     private Accounts findAccountById(Long id) {
         return accountRepository.findById(id).orElseThrow(()-> new RuntimeException("Don't have a transaction"));    }
 
+    private Accounts validateAndGetAccount(String iban, String accountCode) {
+        return accountRepository.findByIbanAndAccountCode(iban, accountCode).orElseThrow(() -> new RuntimeException("Account not found with provided IBAN and Account Code"));
+    }
+
     private void createAndSaveTransaction(Accounts account, Double amount, Transactions.TransactionType type) {
         Transactions transaction = new Transactions();
         transaction.setAmount(amount);
@@ -39,7 +43,7 @@ public class AccountService {
 
     @Transactional
     public String deposit(DepositRequestDTO request) {
-        Accounts account = findAccountById(request.getAccountId());
+        Accounts account = validateAndGetAccount(request.getIban(), request.getAccountCode());
 
         account.setBalance(account.getBalance() + request.getAmount());
         accountRepository.save(account);
@@ -51,7 +55,7 @@ public class AccountService {
 
     @Transactional
     public String withdraw(WithdrawRequestDTO draw) {
-        Accounts account = findAccountById(draw.getAccountId());
+        Accounts account = validateAndGetAccount(draw.getIban(), draw.getAccountCode());
         if (account.getBalance() < draw.getAmount()) {
             throw new RuntimeException("This account balance is too low, balance: " + account.getBalance());
         }
