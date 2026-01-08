@@ -10,5 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountDTO {
-    private String accountName;
+    private Double balance;
+    private String currency;
+    private String accountCode;
+    private String iban;
 }

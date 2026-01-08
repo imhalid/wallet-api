@@ -1,10 +1,10 @@
 package wallet.api.money.repository;
 
-import wallet.api.money.entity.Account;
+import wallet.api.money.entity.Accounts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<Accounts, Long> {
     // Sorgular burada yapılacak
 }

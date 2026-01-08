@@ -10,25 +10,29 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "transaction")
+@Table(name = "transactions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Transaction {
+public class Transactions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double amount;
+    private Long fromAccountId;
+    private Long toAccountId;
+
     @Enumerated(EnumType.STRING)
     private TransactionType type;
+
     private LocalDateTime timestamp;
 
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "account_id")
-    private Account account;
+    private Accounts account;
 
 
     public enum TransactionType {

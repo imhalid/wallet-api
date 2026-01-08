@@ -2,7 +2,7 @@ package wallet.api.money.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import wallet.api.money.entity.Transaction;
+import wallet.api.money.entity.Transactions;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 public class TransactionDTO {
     private Double amount;
-    private Transaction.TransactionType type;
+    private Transactions.TransactionType type;
     private LocalDateTime timestamp;
     private String message;
 }
