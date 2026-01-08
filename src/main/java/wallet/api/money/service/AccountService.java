@@ -5,10 +5,13 @@ import wallet.api.money.constant.CurrencyConstant;
 import wallet.api.money.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import wallet.api.money.dto.account.CreateAccountDTO;
 import wallet.api.money.entity.Accounts;
 import wallet.api.money.entity.Transactions;
+import wallet.api.money.entity.Users;
 import wallet.api.money.repository.AccountRepository;
 import wallet.api.money.repository.TransactionRepository;
+import wallet.api.money.utils.WalletUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +22,8 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
     private final CurrencyService currencyService;
+    private final WalletUtils walletUtils;
+    private final UserService userService;
 
     private Accounts findAccountById(Long id) {
         return accountRepository.findById(id).orElseThrow(()-> new RuntimeException("Don't have a transaction"));    }
@@ -99,15 +104,24 @@ public class AccountService {
         return "Transfer başarılı! Yeni bakiyeniz: " + fromAccount.getBalance()  + " " + toAccount.getBalance();
     }
 
-    public Accounts createAccount(String ownerName, String currency) {
-        currency = currency.toUpperCase();
-        if (!CurrencyConstant.RATES.containsKey(currency)) {
+    public Accounts createAccount(CreateAccountDTO dto) {
+        Users user = userService.getUserById(dto.getUserId());
+        AccountRepository.Currency currency = dto.getCurrency();
+        if (!CurrencyConstant.RATES.containsKey(currency.toString())) {
             throw new IllegalArgumentException("Unsupported currency: " + currency);
         }
 
+        String ownerName = dto.getAccountName();
+        String code = WalletUtils.generateAccountCode(dto.getUserId(), dto.getCurrency());
+        String iban = WalletUtils.generateTrIban("006" ,code);
+
         Accounts account = new Accounts();
         account.setOwnerName(ownerName);
-        account.setCurrency(currency);
+        account.setCurrency(currency.toString());
+        account.setIban(iban);
+        account.setAccountCode(code);
+        account.setUser(user);
+
         account.setBalance(0.0);
         return accountRepository.save(account);
     }

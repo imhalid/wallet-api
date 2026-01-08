@@ -7,6 +7,7 @@ import wallet.api.money.dto.DepositRequestDTO;
 import wallet.api.money.dto.TransactionDTO;
 import wallet.api.money.dto.TransferRequestDTO;
 import wallet.api.money.dto.WithdrawRequestDTO;
+import wallet.api.money.dto.account.CreateAccountDTO;
 import wallet.api.money.entity.Accounts;
 import wallet.api.money.service.AccountService;
 
@@ -19,8 +20,8 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/create-account")
-    public ResponseEntity<Accounts> createAccount(@RequestBody Accounts account) {
-        return ResponseEntity.ok(accountService.createAccount(account.getOwnerName(), account.getCurrency()));
+    public ResponseEntity<Accounts> createAccount(@RequestBody CreateAccountDTO dto) {
+        return ResponseEntity.ok(accountService.createAccount(dto));
     }
 
     @PostMapping("/deposit")

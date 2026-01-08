@@ -1,4 +1,4 @@
-package wallet.api.money.dto;
+package wallet.api.money.dto.account;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,4 +14,6 @@ public class AccountDTO {
     private String currency;
     private String accountCode;
     private String iban;
+    private String accountName;
+    private Long userId;
 }
